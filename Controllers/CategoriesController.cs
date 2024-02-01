@@ -11,47 +11,47 @@ namespace CoreAPI2024.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MembersController : ControllerBase
+    public class CategoriesController : ControllerBase
     {
         private readonly MyDBContext _context;
 
-        public MembersController(MyDBContext context)
+        public CategoriesController(MyDBContext context)
         {
             _context = context;
         }
 
-        // GET: api/Members
+        // GET: api/Categories
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Member>>> GetMembers()
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
-            return await _context.Members.ToListAsync();
+            return await _context.Categories.ToListAsync();
         }
 
-        // GET: api/Members/5
+        // GET: api/Categories/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Member>> GetMember(int id)
+        public async Task<ActionResult<Category>> GetCategory(int id)
         {
-            var member = await _context.Members.FindAsync(id);
+            var category = await _context.Categories.FindAsync(id);
 
-            if (member == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return member;
+            return category;
         }
 
-        // PUT: api/Members/5
+        // PUT: api/Categories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMember(int id, Member member)
+        public async Task<IActionResult> PutCategory(int id, Category category)
         {
-            if (id != member.MemberId)
+            if (id != category.CategoryId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(member).State = EntityState.Modified;
+            _context.Entry(category).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace CoreAPI2024.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MemberExists(id))
+                if (!CategoryExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,36 @@ namespace CoreAPI2024.Controllers
             return NoContent();
         }
 
-        // POST: api/Members
+        // POST: api/Categories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Member>> PostMember(Member member)
+        public async Task<ActionResult<Category>> PostCategory(Category category)
         {
-            _context.Members.Add(member);
+            _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMember", new { id = member.MemberId }, member);
+            return CreatedAtAction("GetCategory", new { id = category.CategoryId }, category);
         }
 
-        // DELETE: api/Members/5
+        // DELETE: api/Categories/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMember(int id)
+        public async Task<IActionResult> DeleteCategory(int id)
         {
-            var member = await _context.Members.FindAsync(id);
-            if (member == null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            _context.Members.Remove(member);
+            _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool MemberExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.Members.Any(e => e.MemberId == id);
+            return _context.Categories.Any(e => e.CategoryId == id);
         }
     }
 }
