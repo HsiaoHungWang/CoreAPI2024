@@ -49,13 +49,19 @@ namespace CoreAPI2024.Controllers
             int TotalCount = spots.Count(); //總共有多少筆資料
             int pageSize = searchDTO.pageSize ?? 9; //每頁多少筆資料
             int page = searchDTO.page ?? 1;   //第幾頁
-            int TotalPages = (int)Math.Ceiling((decimal)TotalCount / pageSize);  //計算總共有幾頁
+
+            int TotalPages = 1;
+            if (pageSize > 0)
+            {
+                TotalPages = (int)Math.Ceiling((decimal)TotalCount / pageSize);  //計算總共有幾頁
+                                                                                 //page = 1, Skip(0), take(9)
+                                                                                 //page = 2, Skip(1*9), take(9)
+                                                                                 //page = 3 , Skie(2*9), take(9)
+                spots = spots.Skip((int)((page - 1) * pageSize)).Take(pageSize);
+            }
 
 
-            //page = 1, Skip(0), take(9)
-            //page = 2, Skip(1*9), take(9)
-            //page = 3 , Skie(2*9), take(9)
-            spots = spots.Skip((int)((page - 1) * pageSize)).Take(pageSize);
+            
 
             SpotsPagingDTO spotsPaging = new SpotsPagingDTO();
             spotsPaging.TotalPages = TotalPages;           
