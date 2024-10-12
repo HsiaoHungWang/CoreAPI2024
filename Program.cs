@@ -1,7 +1,10 @@
+using CoreAPI2024;
 using CoreAPI2024.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<UserService>();
 
 // Add services to the container.
 
@@ -29,6 +32,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseCors("AllowAll");
 
